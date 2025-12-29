@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus with Rohit | Premium Audiobooks</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">Syllabus with <span>Rohit</span></div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#library">Library</a></li>
+            <li><a href="#donate">Support</a></li>
+        </ul>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <span class="badge">New Education Trend</span>
+            <h1>Listen to Your <span>Syllabus</span> Anytime.</h1>
+            <p>Turn your study time into a productive experience. Access all chapters from our YouTube channel in a distraction-free audio format.</p>
+            <div class="hero-btns">
+                <a href="#library" class="btn btn-primary">Open Library</a>
+                <a href="#donate" class="btn btn-outline">Become a Supporter</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="library" class="player-container">
+        <div class="section-header">
+            <h2>Audiobook Library</h2>
+            <p>Select a chapter to begin your learning session</p>
+        </div>
+
+        <div class="app-grid">
+            <div class="player-card">
+                <div class="visualizer-overlay"></div>
+                <div class="cover-box">
+                    <img id="track-img" src="placeholder-cover.jpg" alt="Cover Art">
+                </div>
+                
+                <div class="track-info">
+                    <h2 id="track-title">Introduction to Exams</h2>
+                    <p>Syllabus with Rohit • Educational Series</p>
+                </div>
+
+                <div class="progress-section">
+                    <div class="progress-bar-container" id="progress-area">
+                        <div class="progress-bar-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="time-stamps">
+                        <span id="current-time">0:00</span>
+                        <span id="duration-time">0:00</span>
+                    </div>
+                </div>
+
+                <div class="controls-main">
+                    <button class="ctrl-btn" id="prev"><i class="fas fa-backward-step"></i></button>
+                    <button class="ctrl-btn play-btn" id="play-pause"><i class="fas fa-play"></i></button>
+                    <button class="ctrl-btn" id="next"><i class="fas fa-forward-step"></i></button>
+                </div>
+
+                <div class="playback-options">
+                    <label><i class="fas fa-gauge-high"></i> Speed:</label>
+                    <select id="speed-control">
+                        <option value="1">1.0x</option>
+                        <option value="1.25">1.25x</option>
+                        <option value="1.5" selected>1.5x</option>
+                        <option value="2">2.0x</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="playlist-sidebar">
+                <h3>Chapters</h3>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="chapterSearch" placeholder="Search chapters...">
+                </div>
+                <ul class="playlist-items" id="playlist-list">
+                    </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="donate" class="donation-section">
+        <div class="donation-card">
+            <div class="donation-icon"><i class="fas fa-heart"></i></div>
+            <h2>Fuel My Mission</h2>
+            <p>Creating these audiobooks takes time and effort. If these help you pass your exams, consider a small donation to keep the site ad-free and updated.</p>
+            
+            <div class="payment-methods">
+                <div class="qr-code">
+                    <img src="your-qr-code.png" alt="Scan to Donate">
+                </div>
+                <div class="upi-id">UPI ID: syllabuswithrohit@upi</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Syllabus with Rohit. All educational rights reserved.</p>
+    </footer>
+
+    <audio id="main-audio-engine"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
