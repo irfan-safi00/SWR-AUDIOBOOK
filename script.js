@@ -1,176 +1,72 @@
-/**
- * SYLLABUS WITH ROHIT - AUDIO ENGINE
- * Features: Audio Control, Search Filter, LocalStorage Progress, Speed Control
- */
-
-// 1. DATA CONFIGURATION (Update this array with your actual file paths)
-const tracks = [
-    { 
-        id: 0,
-        title: "01. Introduction to the Syllabus", 
-        file: "audio/intro.mp3", 
-        img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500",
-        duration: "05:20"
-    },
-    { 
-        id: 1,
-        title: "02. History: Ancient Civilizations", 
-        file: "audio/history-ch1.mp3", 
-        img: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=500",
-        duration: "12:45"
-    },
-    { 
-        id: 2,
-        title: "03. Mathematics: Algebraic Basics", 
-        file: "audio/math-ch1.mp3", 
-        img: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=500",
-        duration: "08:15"
-    },
-    { 
-        id: 3,
-        title: "04. Science: The Cell Theory", 
-        file: "audio/science-ch1.mp3", 
-        img: "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=500",
-        duration: "15:30"
-    }
+const books = [
+    { title: "Crime and Punishment", file: "audio/crime.mp3", img: "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=300" },
+    { title: "The Idiot", file: "audio/idiot.mp3", img: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300" },
+    { title: "Brothers Karamazov", file: "audio/brothers.mp3", img: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=300" },
+    { title: "Notes from Underground", file: "audio/underground.mp3", img: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?w=300" }
 ];
 
-// 2. ELEMENT SELECTORS
-const audio = document.getElementById('main-audio-engine');
-const playPauseBtn = document.getElementById('play-pause');
-const progressArea = document.getElementById('progress-area');
-const progressFill = document.getElementById('progress-fill');
-const playlistContainer = document.getElementById('playlist-list');
-const searchInput = document.getElementById('chapterSearch');
-const speedSelect = document.getElementById('speed-control');
+let currentIdx = 0;
+const audio = document.getElementById('audio-engine');
 
-let currentTrackIndex = localStorage.getItem('rohit_last_track') || 0;
-let isPlaying = false;
-
-// 3. INITIALIZATION
 function init() {
-    renderPlaylist(tracks);
-    loadTrack(currentTrackIndex);
-    
-    // Restore playback position if it exists
-    const savedTime = localStorage.getItem('rohit_last_time');
-    if (savedTime) audio.currentTime = savedTime;
+    const grid = document.getElementById('book-grid');
+    grid.innerHTML = books.map((b, i) => `
+        <div class="book-card" onclick="selectBook(${i})">
+            <img src="${b.img}">
+            <h4 style="font-size: 0.9rem;">${b.title}</h4>
+        </div>
+    `).join('');
+    selectBook(0, false);
 }
 
-// 4. RENDER PLAYLIST (With Search Logic)
-function renderPlaylist(trackList) {
-    playlistContainer.innerHTML = "";
-    trackList.forEach((track) => {
-        const li = document.createElement('li');
-        li.className = `playlist-item ${track.id == currentTrackIndex ? 'active' : ''}`;
-        li.innerHTML = `
-            <div style="display:flex; align-items:center; gap:10px;">
-                <i class="fas ${track.id == currentTrackIndex && isPlaying ? 'fa-pause-circle' : 'fa-play-circle'}"></i>
-                <span>${track.title}</span>
-            </div>
-            <small>${track.duration}</small>
-        `;
-        li.onclick = () => {
-            currentTrackIndex = track.id;
-            loadTrack(currentTrackIndex);
-            playAudio();
-        };
-        playlistContainer.appendChild(li);
-    });
-}
-
-// 5. CORE AUDIO LOGIC
-function loadTrack(index) {
-    const track = tracks[index];
-    document.getElementById('track-title').innerText = track.title;
-    document.getElementById('track-img').src = track.img;
-    audio.src = track.file;
+function selectBook(i, play = true) {
+    currentIdx = i;
+    const b = books[i];
+    document.getElementById('p-title').innerText = b.title;
+    document.getElementById('p-img').src = b.img;
+    audio.src = b.file;
+    if(play) togglePlay();
     
-    localStorage.setItem('rohit_last_track', index);
-    renderPlaylist(tracks);
+    // Track Progress
+    let log = JSON.parse(localStorage.getItem('study_log') || '[]');
+    if(!log.includes(b.title)) log.push(b.title);
+    localStorage.setItem('study_log', JSON.stringify(log));
+    updateStats();
 }
 
 function togglePlay() {
-    isPlaying ? pauseAudio() : playAudio();
-}
-
-function playAudio() {
-    isPlaying = true;
-    audio.play();
-    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-    renderPlaylist(tracks);
-}
-
-function pauseAudio() {
-    isPlaying = false;
-    audio.pause();
-    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-    renderPlaylist(tracks);
-}
-
-// 6. EVENT LISTENERS
-playPauseBtn.addEventListener('click', togglePlay);
-
-// Update Progress Bar
-audio.addEventListener('timeupdate', () => {
-    const { duration, currentTime } = audio;
-    if (duration) {
-        const progressPercent = (currentTime / duration) * 100;
-        progressFill.style.width = `${progressPercent}%`;
-        
-        document.getElementById('current-time').innerText = formatTime(currentTime);
-        document.getElementById('duration-time').innerText = formatTime(duration);
-        
-        // Save progress every 5 seconds locally
-        if (Math.floor(currentTime) % 5 === 0) {
-            localStorage.setItem('rohit_last_time', currentTime);
-        }
+    const btn = document.getElementById('play-btn');
+    if(audio.paused) {
+        audio.play();
+        btn.innerHTML = '<i class="fas fa-pause"></i>';
+    } else {
+        audio.pause();
+        btn.innerHTML = '<i class="fas fa-play"></i>';
     }
-});
-
-// Click to Seek
-progressArea.addEventListener('click', (e) => {
-    const width = progressArea.clientWidth;
-    const clickX = e.offsetX;
-    audio.currentTime = (clickX / width) * audio.duration;
-});
-
-// Navigation
-document.getElementById('next').onclick = () => {
-    currentTrackIndex = (parseInt(currentTrackIndex) + 1) % tracks.length;
-    loadTrack(currentTrackIndex);
-    playAudio();
-};
-
-document.getElementById('prev').onclick = () => {
-    currentTrackIndex = (parseInt(currentTrackIndex) - 1 + tracks.length) % tracks.length;
-    loadTrack(currentTrackIndex);
-    playAudio();
-};
-
-// Search Filter Logic
-searchInput.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase();
-    const filtered = tracks.filter(t => t.title.toLowerCase().includes(term));
-    renderPlaylist(filtered);
-});
-
-// Speed Control
-speedSelect.addEventListener('change', () => {
-    audio.playbackRate = parseFloat(speedSelect.value);
-});
-
-// Auto-play Next
-audio.addEventListener('ended', () => {
-    document.getElementById('next').click();
-});
-
-// Format Time Utility
-function formatTime(seconds) {
-    let min = Math.floor(seconds / 60);
-    let sec = Math.floor(seconds % 60);
-    return `${min}:${sec < 10 ? '0' + sec : sec}`;
 }
 
-// Run on load
+audio.ontimeupdate = () => {
+    const fill = document.getElementById('progress-fill');
+    fill.style.width = (audio.currentTime / audio.duration) * 100 + "%";
+    document.getElementById('c-time').innerText = fmt(audio.currentTime);
+    if(audio.duration) document.getElementById('t-time').innerText = fmt(audio.duration);
+};
+
+function fmt(s) {
+    let m = Math.floor(s/60); let r = Math.floor(s%60);
+    return `${m}:${r < 10 ? '0'+r : r}`;
+}
+
+function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-'+id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+}
+
+function updateStats() {
+    const log = JSON.parse(localStorage.getItem('study_log') || '[]');
+    document.getElementById('books-completed').innerText = log.length;
+}
+
 window.onload = init;
