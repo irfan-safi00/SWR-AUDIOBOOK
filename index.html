@@ -3,113 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Syllabus with Rohit | Premium Audiobooks</title>
-    
+    <title>Syllabus | Night Edition</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-
-    <nav class="navbar">
-        <div class="logo">Syllabus with <span>Rohit</span></div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#library">Library</a></li>
-            <li><a href="#donate">Support</a></li>
-        </ul>
-    </nav>
-
-    <header id="home" class="hero">
-        <div class="hero-content">
-            <span class="badge">New Education Trend</span>
-            <h1>Listen to Your <span>Syllabus</span> Anytime.</h1>
-            <p>Turn your study time into a productive experience. Access all chapters from our YouTube channel in a distraction-free audio format.</p>
-            <div class="hero-btns">
-                <a href="#library" class="btn btn-primary">Open Library</a>
-                <a href="#donate" class="btn btn-outline">Become a Supporter</a>
+<body class="night-mode">
+    <div class="app-shell">
+        <nav class="sidebar">
+            <div class="brand">
+                <i class="fas fa-moon"></i> <span>Night Library</span>
             </div>
-        </div>
-    </header>
+            <ul class="nav-menu">
+                <li class="nav-item active" onclick="showPage('library')"><i class="fas fa-th-large"></i> Explore</li>
+                <li class="nav-item" onclick="showPage('progress')"><i class="fas fa-history"></i> Progress</li>
+                <li class="nav-item" onclick="showPage('donate')"><i class="fas fa-coffee"></i> Support</li>
+            </ul>
+            <div class="sidebar-footer">
+                <p>Syllabus with Rohit</p>
+            </div>
+        </nav>
 
-    <section id="library" class="player-container">
-        <div class="section-header">
-            <h2>Audiobook Library</h2>
-            <p>Select a chapter to begin your learning session</p>
-        </div>
-
-        <div class="app-grid">
-            <div class="player-card">
-                <div class="visualizer-overlay"></div>
-                <div class="cover-box">
-                    <img id="track-img" src="placeholder-cover.jpg" alt="Cover Art">
+        <main class="main-content">
+            <section id="page-library" class="page active">
+                <div class="hero-dark">
+                    <h1>Deep Study Archive</h1>
+                    <p>Fyodor Dostoevsky Collection • High Fidelity Audio</p>
                 </div>
-                
-                <div class="track-info">
-                    <h2 id="track-title">Introduction to Exams</h2>
-                    <p>Syllabus with Rohit • Educational Series</p>
-                </div>
+                <div class="book-grid" id="book-grid"></div>
+            </section>
 
-                <div class="progress-section">
-                    <div class="progress-bar-container" id="progress-area">
-                        <div class="progress-bar-fill" id="progress-fill"></div>
-                    </div>
-                    <div class="time-stamps">
-                        <span id="current-time">0:00</span>
-                        <span id="duration-time">0:00</span>
+            <section id="page-progress" class="page">
+                <h2>Listening Analytics</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h1 id="books-completed">0</h1>
+                        <p>Completed</p>
                     </div>
                 </div>
+                <div id="history-list" class="history-list"></div>
+            </section>
 
-                <div class="controls-main">
-                    <button class="ctrl-btn" id="prev"><i class="fas fa-backward-step"></i></button>
-                    <button class="ctrl-btn play-btn" id="play-pause"><i class="fas fa-play"></i></button>
-                    <button class="ctrl-btn" id="next"><i class="fas fa-forward-step"></i></button>
+            <section id="page-donate" class="page">
+                <div class="night-card donate-box">
+                    <i class="fas fa-shield-halved donate-icon"></i>
+                    <h2>Protect the Archive</h2>
+                    <p>Every donation helps keep these files on a private server, safe from YouTube's terms of service.</p>
+                    <div class="qr-placeholder">QR CODE</div>
+                    <p>UPI ID: syllabus@rohit</p>
                 </div>
+            </section>
+        </main>
 
-                <div class="playback-options">
-                    <label><i class="fas fa-gauge-high"></i> Speed:</label>
-                    <select id="speed-control">
+        <footer class="player-bar">
+            <div class="now-playing">
+                <img id="p-img" src="" alt="">
+                <div class="meta">
+                    <h4 id="p-title">Ready to listen</h4>
+                    <p id="p-author">F. Dostoevsky</p>
+                </div>
+            </div>
+
+            <div class="player-controls">
+                <div class="button-group">
+                    <button class="icon-btn" onclick="prev()"><i class="fas fa-backward-step"></i></button>
+                    <button class="play-btn" id="play-btn" onclick="togglePlay()"><i class="fas fa-play"></i></button>
+                    <button class="icon-btn" onclick="next()"><i class="fas fa-forward-step"></i></button>
+                </div>
+                <div class="seek-bar-container">
+                    <span class="timer" id="c-time">0:00</span>
+                    <div class="seek-rail" id="seek-rail">
+                        <div class="seek-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="timer" id="t-time">0:00</span>
+                </div>
+            </div>
+
+            <div class="settings">
+                <div class="speed-control">
+                    <i class="fas fa-bolt"></i>
+                    <select id="speed-sel" onchange="changeSpeed()">
                         <option value="1">1.0x</option>
-                        <option value="1.25">1.25x</option>
                         <option value="1.5" selected>1.5x</option>
                         <option value="2">2.0x</option>
                     </select>
                 </div>
             </div>
-
-            <div class="playlist-sidebar">
-                <h3>Chapters</h3>
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" id="chapterSearch" placeholder="Search chapters...">
-                </div>
-                <ul class="playlist-items" id="playlist-list">
-                    </ul>
-            </div>
-        </div>
-    </section>
-
-    <section id="donate" class="donation-section">
-        <div class="donation-card">
-            <div class="donation-icon"><i class="fas fa-heart"></i></div>
-            <h2>Fuel My Mission</h2>
-            <p>Creating these audiobooks takes time and effort. If these help you pass your exams, consider a small donation to keep the site ad-free and updated.</p>
-            
-            <div class="payment-methods">
-                <div class="qr-code">
-                    <img src="your-qr-code.png" alt="Scan to Donate">
-                </div>
-                <div class="upi-id">UPI ID: syllabuswithrohit@upi</div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2025 Syllabus with Rohit. All educational rights reserved.</p>
-    </footer>
-
-    <audio id="main-audio-engine"></audio>
-
+        </footer>
+    </div>
+    <audio id="audio-engine"></audio>
     <script src="script.js"></script>
 </body>
 </html>
