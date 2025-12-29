@@ -1,303 +1,137 @@
-/* --- 1. GLOBAL RESET & VARIABLES --- */
 :root {
-    --primary: #6366f1;
-    --primary-glow: rgba(99, 102, 241, 0.5);
-    --accent: #f43f5e;
-    --bg-dark: #0f172a;
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.1);
-    --text-main: #f8fafc;
-    --text-dim: #94a3b8;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    --bg-pure: #000000;
+    --bg-soft: #0a0a0a;
+    --bg-card: #121212;
+    --accent: #bb86fc; /* Soft Purple - better for night eyes than gold */
+    --text: #e0e0e0;
+    --text-dim: #757575;
+    --border: #1f1f1f;
 }
 
 body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--bg-dark);
-    color: var(--text-main);
-    line-height: 1.6;
-    overflow-x: hidden;
-}
-
-/* --- 2. NAVIGATION --- */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 5%;
-    background: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(10px);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    border-bottom: 1px solid var(--glass-border);
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 800;
-}
-
-.logo span { color: var(--primary); }
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 30px;
-}
-
-.nav-links a {
-    color: var(--text-main);
-    text-decoration: none;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-.nav-links a:hover { color: var(--primary); }
-
-/* --- 3. HERO SECTION --- */
-.hero {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent),
-                radial-gradient(circle at bottom left, rgba(244, 63, 94, 0.05), transparent);
-    padding-top: 80px;
-}
-
-.badge {
-    background: rgba(99, 102, 241, 0.1);
-    color: var(--primary);
-    padding: 8px 16px;
-    border-radius: 50px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    display: inline-block;
-}
-
-.hero h1 {
-    font-size: 4rem;
-    line-height: 1.1;
-    margin-bottom: 20px;
-}
-
-.hero h1 span {
-    background: linear-gradient(to right, var(--primary), var(--accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.hero p {
-    max-width: 600px;
-    margin: 0 auto 40px;
-    color: var(--text-dim);
-    font-size: 1.1rem;
-}
-
-/* --- 4. BUTTONS --- */
-.btn {
-    padding: 16px 32px;
-    border-radius: 12px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: 0.3s;
-    display: inline-block;
-}
-
-.btn-primary {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 10px 20px var(--primary-glow);
-}
-
-.btn-outline {
-    border: 1px solid var(--glass-border);
-    color: white;
-    margin-left: 15px;
-}
-
-.btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
-
-/* --- 5. PLAYER INTERFACE --- */
-.player-container {
-    padding: 100px 5%;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.section-header { text-align: center; margin-bottom: 60px; }
-
-.app-grid {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 30px;
-}
-
-.player-card {
-    background: var(--card-bg);
-    border: 1px solid var(--glass-border);
-    border-radius: 32px;
-    padding: 40px;
-    backdrop-filter: blur(20px);
-    text-align: center;
-}
-
-.cover-box {
-    width: 280px;
-    height: 280px;
-    margin: 0 auto 30px;
-    border-radius: 20px;
+    margin: 0;
+    background: var(--bg-pure);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
-.cover-box img { width: 100%; height: 100%; object-fit: cover; }
-
-/* Progress Bar Styles */
-.progress-bar-container {
-    background: rgba(255,255,255,0.05);
-    height: 8px;
-    border-radius: 10px;
-    margin: 30px 0 10px;
-    cursor: pointer;
-    position: relative;
+.app-shell {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    height: 100vh;
 }
 
-.progress-bar-fill {
-    background: var(--primary);
-    width: 0%;
-    height: 100%;
-    border-radius: 10px;
-    box-shadow: 0 0 15px var(--primary);
-}
-
-.time-stamps {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85rem;
-    color: var(--text-dim);
-}
-
-.controls-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 30px;
-    margin: 30px 0;
-}
-
-.play-btn {
-    width: 70px;
-    height: 70px;
-    background: white;
-    color: var(--bg-dark);
-    border-radius: 50%;
-    font-size: 1.5rem;
-}
-
-.ctrl-btn {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.ctrl-btn:hover { color: var(--primary); }
-
-/* --- 6. PLAYLIST SIDEBAR --- */
-.playlist-sidebar {
-    background: rgba(0,0,0,0.2);
-    border-radius: 32px;
-    padding: 30px;
-    border: 1px solid var(--glass-border);
-}
-
-.search-box {
-    background: rgba(255,255,255,0.05);
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 20px 0;
-}
-
-.search-box input {
-    background: none;
-    border: none;
-    color: white;
-    width: 100%;
-    outline: none;
-}
-
-.playlist-items {
-    list-style: none;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.playlist-item {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    border-radius: 12px;
-    cursor: pointer;
-    margin-bottom: 8px;
-    transition: 0.2s;
-}
-
-.playlist-item:hover { background: rgba(255,255,255,0.05); }
-.playlist-item.active { background: rgba(99, 102, 241, 0.15); color: var(--primary); }
-
-/* --- 7. DONATION SECTION --- */
-.donation-section {
-    padding: 100px 5%;
-}
-
-.donation-card {
-    max-width: 800px;
-    margin: 0 auto;
-    background: linear-gradient(145deg, #1e293b, #0f172a);
-    padding: 60px;
-    border-radius: 40px;
-    text-align: center;
-    border: 1px solid var(--glass-border);
-}
-
-.donation-icon {
-    font-size: 3rem;
-    color: var(--accent);
-    margin-bottom: 20px;
-}
-
-.payment-methods {
-    margin-top: 40px;
+/* SIDEBAR: PURE DARK */
+.sidebar {
+    background: var(--bg-pure);
+    border-right: 1px solid var(--border);
+    padding: 40px 20px;
     display: flex;
     flex-direction: column;
+}
+
+.brand {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 50px;
+    letter-spacing: 1px;
+}
+
+.nav-menu { list-style: none; padding: 0; flex-grow: 1; }
+.nav-item {
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: var(--text-dim);
+    transition: all 0.2s;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: var(--accent);
+    background: rgba(187, 134, 252, 0.05);
+}
+
+.sidebar-footer { font-size: 0.7rem; color: var(--border); }
+
+/* MAIN CONTENT */
+.main-content {
+    background: linear-gradient(to bottom, #050505, #000);
+    padding: 40px;
+    overflow-y: auto;
+    padding-bottom: 120px;
+}
+
+.hero-dark {
+    padding: 40px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    margin-bottom: 40px;
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 25px;
+}
+
+.book-card {
+    background: var(--bg-card);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.book-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+.book-card img { width: 100%; border-radius: 8px; margin-bottom: 12px; opacity: 0.8; }
+.book-card:hover img { opacity: 1; }
+
+/* PLAYER BAR: OBSIDIAN GLASS */
+.player-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 90px;
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px;
     align-items: center;
-    gap: 20px;
+    box-sizing: border-box;
 }
 
-.qr-code img {
-    width: 200px;
-    background: white;
-    padding: 10px;
-    border-radius: 15px;
+.now-playing { display: flex; align-items: center; gap: 15px; min-width: 250px; }
+.now-playing img { width: 50px; height: 50px; border-radius: 4px; border: 1px solid var(--border); }
+.meta h4 { margin: 0; font-size: 0.9rem; }
+.meta p { margin: 0; font-size: 0.75rem; color: var(--text-dim); }
+
+.player-controls { flex-grow: 1; max-width: 500px; text-align: center; }
+.play-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: black;
+    border: none;
+    cursor: pointer;
 }
 
-/* --- 8. RESPONSIVE --- */
-@media (max-width: 900px) {
-    .app-grid { grid-template-columns: 1fr; }
-    .hero h1 { font-size: 2.5rem; }
-  }
+.icon-btn { background: none; border: none; color: var(--text-dim); margin: 0 10px; cursor: pointer; }
+.icon-btn:hover { color: var(--accent); }
+
+.seek-bar-container { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.seek-rail { flex-grow: 1; height: 3px; background: var(--border); border-radius: 2px; cursor: pointer; }
+.seek-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 2px; }
+.timer { font-size: 0.7rem; color: var(--text-dim); font-family: monospace; }
+
+.settings select { background: none; color: var(--text-dim); border: none; outline: none; cursor: pointer; }
+
+/* PAGES */
+.page { display: none; }
+.page.active { display: block; }
